@@ -29,6 +29,19 @@ const rectangle2 = {
   },
 };
 
+const rectangle3 = {
+  x: 600,
+  y: 450,
+  width: 120,
+  height: 80,
+  style: "#4caf50",
+
+  draw: function () {
+    ctx.fillStyle = this.style;
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+  },
+};
+
 let seconds: number = 0;
 
 const circle = {
@@ -65,6 +78,7 @@ const circle = {
 
 rectangle.draw();
 rectangle2.draw();
+rectangle3.draw();
 circle.draw();
 
 setInterval(function () {
