@@ -18,10 +18,17 @@ class Size {
   }
 }
 
-export class Rectangle {
+class Shape {
+  style: string;
+
+  constructor(style: string) {
+    this.style = style;
+  }
+}
+
+export class Rectangle extends Shape {
   location: Point;
   size: Size;
-  style: string;
 
   constructor(
     x: number,
@@ -30,9 +37,9 @@ export class Rectangle {
     height: number,
     style: string,
   ) {
+    super(style);
     this.location = new Point(x, y);
     this.size = new Size(width, height);
-    this.style = style;
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -45,15 +52,14 @@ export class Rectangle {
     );
   }
 }
-export class Circle {
+export class Circle extends Shape {
   center: Point;
   radius: number;
-  style: string;
 
   constructor(x: number, y: number, radius: number, style: string) {
+    super(style);
     this.center = new Point(x, y);
     this.radius = radius;
-    this.style = style;
   }
 
   draw(ctx: CanvasRenderingContext2D) {
