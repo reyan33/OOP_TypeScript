@@ -22,4 +22,12 @@ export class ShapeViewer {
   draw(): void {
     this.shapes.forEach((shape) => shape.draw(this.ctx));
   }
+
+  toString(): string {
+    let result = "ShapeViewer with shapes:\n";
+
+    this.shapes.forEach((shape) => (result += shape.toString() + "\n"));
+
+    return result;
+  }
 }

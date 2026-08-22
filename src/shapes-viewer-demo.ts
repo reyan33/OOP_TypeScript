@@ -14,3 +14,5 @@ viewer.addShape(rectangle1);
 viewer.addShape(rectangle2);
 viewer.addShape(circle1);
 viewer.addShape(circle2);
+
+console.log(viewer.toString());

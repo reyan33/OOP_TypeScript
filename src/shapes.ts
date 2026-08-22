@@ -26,6 +26,10 @@ export abstract class Shape {
   }
 
   abstract draw(ctx: CanvasRenderingContext2D): void;
+
+  toString(): string {
+    return `Shape with style ${this.style}`;
+  }
 }
 
 export class Rectangle extends Shape {
@@ -53,6 +57,10 @@ export class Rectangle extends Shape {
       this.size.height,
     );
   }
+
+  toString(): string {
+    return `Rectangle with location ${this.location}, size ${this.size}, ${super.toString()}`;
+  }
 }
 export class Circle extends Shape {
   center: Point;
@@ -69,5 +77,9 @@ export class Circle extends Shape {
     ctx.arc(this.center.x, this.center.y, this.radius, 0, 2 * Math.PI);
     ctx.fillStyle = this.style;
     ctx.fill();
+  }
+
+  toString(): string {
+    return `Circle with center ${this.center}, radius ${this.radius}, ${super.toString()}`;
   }
 }
