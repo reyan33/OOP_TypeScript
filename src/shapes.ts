@@ -26,7 +26,11 @@ class Size {
   }
 }
 
-export abstract class Shape {
+export interface Shape {
+  draw(ctx: CanvasRenderingContext2D): void;
+  toString(): string;
+}
+export abstract class BaseShape implements Shape {
   style: string;
 
   constructor(style: string) {
@@ -40,7 +44,7 @@ export abstract class Shape {
   }
 }
 
-export class Rectangle extends Shape {
+export class Rectangle extends BaseShape {
   location: Point;
   size: Size;
 
@@ -70,7 +74,7 @@ export class Rectangle extends Shape {
     return `Rectangle with location ${this.location.toString()}, size ${this.size.toString()}, ${super.toString()}`;
   }
 }
-export class Circle extends Shape {
+export class Circle extends BaseShape {
   center: Point;
   radius: number;
 
