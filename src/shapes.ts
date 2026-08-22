@@ -18,12 +18,14 @@ class Size {
   }
 }
 
-class Shape {
+abstract class Shape {
   style: string;
 
   constructor(style: string) {
     this.style = style;
   }
+
+  abstract draw(ctx: CanvasRenderingContext2D): void;
 }
 
 export class Rectangle extends Shape {
@@ -42,7 +44,7 @@ export class Rectangle extends Shape {
     this.size = new Size(width, height);
   }
 
-  draw(ctx: CanvasRenderingContext2D) {
+  draw(ctx: CanvasRenderingContext2D): void {
     ctx.fillStyle = this.style;
     ctx.fillRect(
       this.location.x,
@@ -62,7 +64,7 @@ export class Circle extends Shape {
     this.radius = radius;
   }
 
-  draw(ctx: CanvasRenderingContext2D) {
+  draw(ctx: CanvasRenderingContext2D): void {
     ctx.beginPath();
     ctx.arc(this.center.x, this.center.y, this.radius, 0, 2 * Math.PI);
     ctx.fillStyle = this.style;
