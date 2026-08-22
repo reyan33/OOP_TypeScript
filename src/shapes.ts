@@ -6,6 +6,10 @@ class Point {
     this.x = x;
     this.y = y;
   }
+
+  toString(): string {
+    return `${this.x}, ${this.y}`;
+  }
 }
 
 class Size {
@@ -15,6 +19,10 @@ class Size {
   constructor(width: number, height: number) {
     this.width = width;
     this.height = height;
+  }
+
+  toString(): string {
+    return `${this.width} x ${this.height}`;
   }
 }
 
@@ -59,7 +67,7 @@ export class Rectangle extends Shape {
   }
 
   toString(): string {
-    return `Rectangle with location ${this.location}, size ${this.size}, ${super.toString()}`;
+    return `Rectangle with location ${this.location.toString()}, size ${this.size.toString()}, ${super.toString()}`;
   }
 }
 export class Circle extends Shape {
@@ -80,6 +88,6 @@ export class Circle extends Shape {
   }
 
   toString(): string {
-    return `Circle with center ${this.center}, radius ${this.radius}, ${super.toString()}`;
+    return `Circle with center ${this.center.toString()}, radius ${this.radius}, ${super.toString()}`;
   }
 }
