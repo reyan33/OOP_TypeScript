@@ -18,7 +18,7 @@ class Size {
   }
 }
 
-abstract class Shape {
+export abstract class Shape {
   style: string;
 
   constructor(style: string) {
