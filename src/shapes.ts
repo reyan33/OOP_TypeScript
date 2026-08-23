@@ -1,27 +1,43 @@
 class Point {
-  x: number;
-  y: number;
+  private _x: number;
+  private _y: number;
 
-  constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
+  public constructor(x: number, y: number) {
+    this._x = x;
+    this._y = y;
   }
 
-  toString(): string {
+  public get x(): number {
+    return this._x;
+  }
+
+  public get y(): number {
+    return this._y;
+  }
+
+  public toString(): string {
     return `${this.x}, ${this.y}`;
   }
 }
 
 class Size {
-  width: number;
-  height: number;
+  private _width: number;
+  private _height: number;
 
-  constructor(width: number, height: number) {
-    this.width = width;
-    this.height = height;
+  public constructor(width: number, height: number) {
+    this._width = width;
+    this._height = height;
   }
 
-  toString(): string {
+  public get width(): number {
+    return this._width;
+  }
+
+  public get height(): number {
+    return this._height;
+  }
+
+  public toString(): string {
     return `${this.width} x ${this.height}`;
   }
 }
@@ -31,24 +47,28 @@ export interface Shape {
   toString(): string;
 }
 export abstract class BaseShape implements Shape {
-  style: string;
+  private _style: string;
 
-  constructor(style: string) {
-    this.style = style;
+  public constructor(style: string) {
+    this._style = style;
   }
 
-  abstract draw(ctx: CanvasRenderingContext2D): void;
+  public get style(): string {
+    return this._style;
+  }
 
-  toString(): string {
+  public abstract draw(ctx: CanvasRenderingContext2D): void;
+
+  public toString(): string {
     return `Shape with style ${this.style}`;
   }
 }
 
 export class Rectangle extends BaseShape {
-  location: Point;
-  size: Size;
+  private location: Point;
+  private size: Size;
 
-  constructor(
+  public constructor(
     x: number,
     y: number,
     width: number,
@@ -60,7 +80,7 @@ export class Rectangle extends BaseShape {
     this.size = new Size(width, height);
   }
 
-  draw(ctx: CanvasRenderingContext2D): void {
+  public override draw(ctx: CanvasRenderingContext2D): void {
     ctx.fillStyle = this.style;
     ctx.fillRect(
       this.location.x,
@@ -70,28 +90,28 @@ export class Rectangle extends BaseShape {
     );
   }
 
-  toString(): string {
+  public override toString(): string {
     return `Rectangle with location ${this.location.toString()}, size ${this.size.toString()}, ${super.toString()}`;
   }
 }
 export class Circle extends BaseShape {
-  center: Point;
-  radius: number;
+  private center: Point;
+  private radius: number;
 
-  constructor(x: number, y: number, radius: number, style: string) {
+  public constructor(x: number, y: number, radius: number, style: string) {
     super(style);
     this.center = new Point(x, y);
     this.radius = radius;
   }
 
-  draw(ctx: CanvasRenderingContext2D): void {
+  public override draw(ctx: CanvasRenderingContext2D): void {
     ctx.beginPath();
     ctx.arc(this.center.x, this.center.y, this.radius, 0, 2 * Math.PI);
     ctx.fillStyle = this.style;
     ctx.fill();
   }
 
-  toString(): string {
+  public override toString(): string {
     return `Circle with center ${this.center.toString()}, radius ${this.radius}, ${super.toString()}`;
   }
 }
