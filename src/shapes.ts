@@ -231,3 +231,187 @@ export class Circle extends BaseShape {
     return `Circle with center ${this.center.toString()}, radius ${this.radius}, ${super.toString()}`;
   }
 }
+
+/**
+ * Defines a triangle with a location, size and style.
+ */
+export class Triangle extends BaseShape {
+  // The location of the triangle.
+  private location: Point;
+
+  // The size of the triangle.
+  private size: Size;
+
+  /**
+   * Constructs and initializes a Triangle using the specified values.
+   * @param x the X coordinate of the triangle.
+   * @param y the Y coordinate of the triangle.
+   * @param width the width of the triangle.
+   * @param height the height of the triangle.
+   * @param style the drawing style of the triangle.
+   */
+  public constructor(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    style: string,
+  ) {
+    super(style);
+    this.location = new Point(x, y);
+    this.size = new Size(width, height);
+  }
+
+  /**
+   * Draws the triangle using the specified canvas context.
+   * @param ctx the canvas rendering context used for drawing.
+   */
+  public override draw(ctx: CanvasRenderingContext2D): void {
+    ctx.fillStyle = this.style;
+    ctx.beginPath();
+
+    ctx.moveTo(this.location.x + this.size.width / 2, this.location.y);
+
+    ctx.lineTo(this.location.x, this.location.y + this.size.height);
+
+    ctx.lineTo(
+      this.location.x + this.size.width,
+      this.location.y + this.size.height,
+    );
+
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  /**
+   * Returns a representation of this triangle in string format.
+   * @returns a string representation for this triangle.
+   */
+  public override toString(): string {
+    return `Triangle with location ${this.location.toString()}, size ${this.size.toString()}, ${super.toString()}`;
+  }
+}
+
+/**
+ * Defines a rhombus with a location, size and style.
+ */
+export class Rhombus extends BaseShape {
+  // The location of the rhombus.
+  private location: Point;
+
+  // The size of the rhombus.
+  private size: Size;
+
+  /**
+   * Constructs and initializes a Rhombus using the specified values.
+   * @param x the X coordinate of the rhombus.
+   * @param y the Y coordinate of the rhombus.
+   * @param width the width of the rhombus.
+   * @param height the height of the rhombus.
+   * @param style the drawing style of the rhombus.
+   */
+  public constructor(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    style: string,
+  ) {
+    super(style);
+    this.location = new Point(x, y);
+    this.size = new Size(width, height);
+  }
+
+  /**
+   * Draws the rhombus using the specified canvas context.
+   * @param ctx the canvas rendering context used for drawing.
+   */
+  public override draw(ctx: CanvasRenderingContext2D): void {
+    ctx.beginPath();
+
+    ctx.moveTo(this.location.x + this.size.width / 2, this.location.y);
+
+    ctx.lineTo(
+      this.location.x + this.size.width,
+      this.location.y + this.size.height / 2,
+    );
+
+    ctx.lineTo(
+      this.location.x + this.size.width / 2,
+      this.location.y + this.size.height,
+    );
+
+    ctx.lineTo(this.location.x, this.location.y + this.size.height / 2);
+
+    ctx.closePath();
+    ctx.fillStyle = this.style;
+    ctx.fill();
+  }
+
+  /**
+   * Returns a representation of this rhombus in string format.
+   * @returns a string representation for this rhombus.
+   */
+  public override toString(): string {
+    return `Rhombus with location ${this.location.toString()}, size ${this.size.toString()}, ${super.toString()}`;
+  }
+}
+
+/**
+ * Defines a trapezoid with a location, size and style.
+ */
+export class Trapezoid extends BaseShape {
+  // The location of the trapezoid.
+  private location: Point;
+
+  // The size of the trapezoid.
+  private size: Size;
+
+  /**
+   * Constructs and initializes a Trapezoid using the specified values.
+   * @param x the X coordinate of the trapezoid.
+   * @param y the Y coordinate of the trapezoid.
+   * @param width the width of the trapezoid.
+   * @param height the height of the trapezoid.
+   * @param style the drawing style of the trapezoid.
+   */
+  public constructor(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    style: string,
+  ) {
+    super(style);
+    this.location = new Point(x, y);
+    this.size = new Size(width, height);
+  }
+
+  /**
+   * Draws the trapezoid using the specified canvas context.
+   * @param ctx the canvas rendering context used for drawing.
+   */
+  public override draw(ctx: CanvasRenderingContext2D): void {
+    ctx.beginPath();
+
+    ctx.moveTo(this.location.x + 40, this.location.y);
+    ctx.lineTo(this.location.x + this.size.width - 40, this.location.y);
+    ctx.lineTo(
+      this.location.x + this.size.width,
+      this.location.y + this.size.height,
+    );
+    ctx.lineTo(this.location.x, this.location.y + this.size.height);
+
+    ctx.closePath();
+    ctx.fillStyle = this.style;
+    ctx.fill();
+  }
+
+  /**
+   * Returns a representation of this trapezoid in string format.
+   * @returns a string representation for this trapezoid.
+   */
+  public override toString(): string {
+    return `Trapezoid with location ${this.location.toString()}, size ${this.size.toString()}, ${super.toString()}`;
+  }
+}
