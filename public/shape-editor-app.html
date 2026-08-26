@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Shape Editor</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 35px;
+        font-family: Arial, sans-serif;
+        background-color: #fff0d9;
+        color: #333;
+      }
+
+      h1 {
+        text-align: center;
+        color: #ef6630;
+        font-size: 42px;
+        margin: 0 0 30px;
+      }
+
+      h2 {
+        margin: 0 0 15px;
+        color: #ef6630;
+        font-size: 22px;
+      }
+
+      .editor-container {
+        max-width: 1250px;
+        margin: auto;
+      }
+
+      .editor {
+        display: flex;
+        gap: 20px;
+        align-items: stretch;
+      }
+
+      .sidebar {
+        width: 240px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      #palette,
+      #properties,
+      .canvas-area,
+      #status {
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      #palette,
+      #properties {
+        padding: 20px;
+        border: 1px solid #f2d3bd;
+      }
+
+      #palette {
+        min-height: 230px;
+      }
+
+      #properties {
+        min-height: 200px;
+      }
+
+      .canvas-area {
+        flex: 1;
+        padding: 18px;
+        border: 1px solid #f2d3bd;
+        overflow: auto;
+      }
+
+      #canvas {
+        display: block;
+        width: 100%;
+        max-width: 900px;
+        background-color: #fff;
+        border: 2px solid #f3b28e;
+        border-radius: 10px;
+      }
+
+      #status {
+        margin-top: 20px;
+        padding: 16px 20px;
+        text-align: center;
+        border: 1px solid #f2d3bd;
+        color: #666;
+        font-size: 15px;
+      }
+
+      .placeholder {
+        margin: 0;
+        color: #888;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      @media (max-width: 850px) {
+        body {
+          padding: 20px;
+        }
+
+        .editor {
+          flex-direction: column;
+        }
+
+        .sidebar {
+          width: 100%;
+        }
+
+        h1 {
+          font-size: 34px;
+        }
+      }
+    </style>
+
+    <script type="module" src="build/shape-editor-app.js"></script>
+  </head>
+
+  <body>
+    <div class="editor-container">
+      <h1>Shape Editor</h1>
+
+      <div class="editor">
+        <div class="sidebar">
+          <div id="palette">
+            <h2>Palette</h2>
+            <p class="placeholder">Shape tools will appear here.</p>
+          </div>
+
+          <div id="properties">
+            <h2>Properties</h2>
+            <p class="placeholder">Select a shape to edit its properties.</p>
+          </div>
+        </div>
+
+        <div class="canvas-area">
+          <canvas id="canvas" width="900" height="550"></canvas>
+        </div>
+      </div>
+
+      <div id="status">
+        Click the canvas to select a shape or choose a shape from the Palette.
+      </div>
+    </div>
+  </body>
+</html>
