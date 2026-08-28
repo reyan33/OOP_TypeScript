@@ -21,7 +21,7 @@ export interface CanvasAction {
 /**
  * Base class for canvas actions.
  */
-export abstract class BaseAction implements CanvasAction {
+abstract class BaseAction implements CanvasAction {
   private _shapeView: ShapeViewer;
 
   public constructor(shapeView: ShapeViewer) {
@@ -78,11 +78,11 @@ export class AddShapeAction extends BaseAction {
   }
 
   public get name(): string {
-    return this._shapeClass.name;
+    return `Add ${this._shapeClass.name}`;
   }
 
   public get status(): string {
-    return `Click the drawing area to add a ${this.name}`;
+    return `Click the drawing area to add a ${this._shapeClass.name}`;
   }
 
   public onClick(e: MouseEvent): void {

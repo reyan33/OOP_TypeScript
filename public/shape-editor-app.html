@@ -69,6 +69,25 @@
         min-height: 230px;
       }
 
+      #palette button {
+        background-color: #f36a2e;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 14px;
+        margin: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      #palette button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
       #properties {
         min-height: 200px;
       }
@@ -135,7 +154,6 @@
         <div class="sidebar">
           <div id="palette">
             <h2>Palette</h2>
-            <p class="placeholder">Shape tools will appear here.</p>
           </div>
 
           <div id="properties">
