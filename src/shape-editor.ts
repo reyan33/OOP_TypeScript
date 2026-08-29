@@ -3,7 +3,7 @@ import { StatusBar } from "./shape-status.js";
 import { ShapeViewer } from "./shape-viewer.js";
 import { PaletteComponent } from "./shape-palette.js";
 import { SelectAction, AddShapeAction } from "./shape-actions.js";
-import { Rectangle, Circle, Triangle } from "./shapes.js";
+import { Rectangle, Circle, Triangle, Rhombus, Trapezoid } from "./shapes.js";
 
 export class ShapeEditor {
   private _shapeView: ShapeViewer;
@@ -26,6 +26,8 @@ export class ShapeEditor {
         new AddShapeAction(Rectangle, this._shapeView),
         new AddShapeAction(Circle, this._shapeView),
         new AddShapeAction(Triangle, this._shapeView),
+        new AddShapeAction(Rhombus, this._shapeView),
+        new AddShapeAction(Trapezoid, this._shapeView),
       ],
     );
 

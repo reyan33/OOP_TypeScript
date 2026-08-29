@@ -86,6 +86,7 @@ export class AddShapeAction extends BaseAction {
   }
 
   public onClick(e: MouseEvent): void {
-    // TODO: Implement this method later.
+    const shape = this._shapeClass.initWithXY(e.offsetX, e.offsetY);
+    this.shapeViewer.addShape(shape);
   }
 }

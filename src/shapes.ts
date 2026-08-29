@@ -128,6 +128,16 @@ export abstract class BaseShape implements Shape {
   public abstract draw(ctx: CanvasRenderingContext2D): void;
 
   /**
+   * Creates a shape at the specified position.
+   * @param x the X coordinate.
+   * @param y the Y coordinate.
+   * @returns a new Shape.
+   */
+  public static initWithXY(x: number, y: number): Shape {
+    throw Error("Implement this method");
+  }
+
+  /**
    * Returns a representation of this shape in string format.
    * @returns a string representation for this shape.
    */
@@ -164,6 +174,10 @@ export class Rectangle extends BaseShape {
     super(style);
     this.location = new Point(x, y);
     this.size = new Size(width, height);
+  }
+
+  public static initWithXY(x: number, y: number): Rectangle {
+    return new Rectangle(x, y, 100, 100, "#f36a2e");
   }
 
   /**
@@ -210,6 +224,16 @@ export class Circle extends BaseShape {
     super(style);
     this.center = new Point(x, y);
     this.radius = radius;
+  }
+
+  /**
+   * Creates a Circle at the specified position.
+   * @param x the X coordinate of the circle.
+   * @param y the Y coordinate of the circle.
+   * @returns a new Circle.
+   */
+  public static initWithXY(x: number, y: number): Circle {
+    return new Circle(x, y, 50, "#f36a2e");
   }
 
   /**
@@ -260,6 +284,16 @@ export class Triangle extends BaseShape {
     super(style);
     this.location = new Point(x, y);
     this.size = new Size(width, height);
+  }
+
+  /**
+   * Creates a Triangle at the specified position.
+   * @param x the X coordinate of the triangle.
+   * @param y the Y coordinate of the triangle.
+   * @returns a new Triangle.
+   */
+  public static initWithXY(x: number, y: number): Triangle {
+    return new Triangle(x, y, 100, 100, "#f36a2e");
   }
 
   /**
@@ -320,6 +354,16 @@ export class Rhombus extends BaseShape {
     super(style);
     this.location = new Point(x, y);
     this.size = new Size(width, height);
+  }
+
+  /**
+   * Creates a Rhombus at the specified position.
+   * @param x the X coordinate of the rhombus.
+   * @param y the Y coordinate of the rhombus.
+   * @returns a new Rhombus.
+   */
+  public static initWithXY(x: number, y: number): Rhombus {
+    return new Rhombus(x, y, 100, 140, "#f36a2e");
   }
 
   /**
@@ -385,6 +429,16 @@ export class Trapezoid extends BaseShape {
     super(style);
     this.location = new Point(x, y);
     this.size = new Size(width, height);
+  }
+
+  /**
+   * Creates a Trapezoid at the specified position.
+   * @param x the X coordinate of the trapezoid.
+   * @param y the Y coordinate of the trapezoid.
+   * @returns a new Trapezoid.
+   */
+  public static initWithXY(x: number, y: number): Trapezoid {
+    return new Trapezoid(x, y, 120, 80, "#f36a2e");
   }
 
   /**
