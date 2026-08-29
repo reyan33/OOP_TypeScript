@@ -62,7 +62,13 @@ export class SelectAction extends BaseAction {
   }
 
   public onClick(e: MouseEvent): void {
-    // TODO: Implement this method later.
+    const shape = this.shapeViewer.getShapeAt(e.offsetX, e.offsetY);
+
+    if (shape) {
+      this.shapeViewer.selectShape(shape);
+    } else {
+      this.shapeViewer.clearSelection();
+    }
   }
 }
 

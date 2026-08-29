@@ -87,10 +87,21 @@ export class Size {
  */
 export interface Shape {
   /**
+   * Gets the path of the shape.
+   */
+  path: Path2D;
+
+  /**
    * Draws the shape using the specified canvas context.
    * @param ctx the canvas rendering context used for drawing.
    */
   draw(ctx: CanvasRenderingContext2D): void;
+
+  /**
+   * Draws a border around the selected shape.
+   * @param ctx the canvas rendering context used for drawing.
+   */
+  drawSelectionBorder(ctx: CanvasRenderingContext2D): void;
 
   /**
    * Returns a representation of the shape in string format.
@@ -121,11 +132,24 @@ export abstract class BaseShape implements Shape {
     return this._style;
   }
 
-  /**
-   * Draws the shape using the specified canvas context.
-   * @param ctx the canvas rendering context used for drawing.
-   */
-  public abstract draw(ctx: CanvasRenderingContext2D): void;
+  public get path(): Path2D {
+    const path = new Path2D();
+    this.setupPath(path);
+    return path;
+  }
+
+  public draw(ctx: CanvasRenderingContext2D): void {
+    ctx.fillStyle = this.style;
+    ctx.fill(this.path);
+  }
+
+  public drawSelectionBorder(ctx: CanvasRenderingContext2D): void {
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 3;
+    ctx.stroke(this.path);
+  }
+
+  protected abstract setupPath(path: Path2D): void;
 
   /**
    * Creates a shape at the specified position.
@@ -181,12 +205,11 @@ export class Rectangle extends BaseShape {
   }
 
   /**
-   * Draws the rectangle using the specified canvas context.
-   * @param ctx the canvas rendering context used for drawing.
+   * Creates the path for the rectangle.
+   * @param path the Path2D object.
    */
-  public override draw(ctx: CanvasRenderingContext2D): void {
-    ctx.fillStyle = this.style;
-    ctx.fillRect(
+  protected override setupPath(path: Path2D): void {
+    path.rect(
       this.location.x,
       this.location.y,
       this.size.width,
@@ -237,14 +260,11 @@ export class Circle extends BaseShape {
   }
 
   /**
-   * Draws the circle using the specified canvas context.
-   * @param ctx the canvas rendering context used for drawing.
+   * Creates the path for the circle.
+   * @param path the Path2D object.
    */
-  public override draw(ctx: CanvasRenderingContext2D): void {
-    ctx.beginPath();
-    ctx.arc(this.center.x, this.center.y, this.radius, 0, 2 * Math.PI);
-    ctx.fillStyle = this.style;
-    ctx.fill();
+  protected override setupPath(path: Path2D): void {
+    path.arc(this.center.x, this.center.y, this.radius, 0, 2 * Math.PI);
   }
 
   /**
@@ -297,24 +317,20 @@ export class Triangle extends BaseShape {
   }
 
   /**
-   * Draws the triangle using the specified canvas context.
-   * @param ctx the canvas rendering context used for drawing.
+   * Creates the path for the triangle.
+   * @param path the Path2D object.
    */
-  public override draw(ctx: CanvasRenderingContext2D): void {
-    ctx.fillStyle = this.style;
-    ctx.beginPath();
+  protected override setupPath(path: Path2D): void {
+    path.moveTo(this.location.x + this.size.width / 2, this.location.y);
 
-    ctx.moveTo(this.location.x + this.size.width / 2, this.location.y);
+    path.lineTo(this.location.x, this.location.y + this.size.height);
 
-    ctx.lineTo(this.location.x, this.location.y + this.size.height);
-
-    ctx.lineTo(
+    path.lineTo(
       this.location.x + this.size.width,
       this.location.y + this.size.height,
     );
 
-    ctx.closePath();
-    ctx.fill();
+    path.closePath();
   }
 
   /**
@@ -367,29 +383,25 @@ export class Rhombus extends BaseShape {
   }
 
   /**
-   * Draws the rhombus using the specified canvas context.
-   * @param ctx the canvas rendering context used for drawing.
+   * Creates the path for the rhombus.
+   * @param path the Path2D object.
    */
-  public override draw(ctx: CanvasRenderingContext2D): void {
-    ctx.beginPath();
+  protected override setupPath(path: Path2D): void {
+    path.moveTo(this.location.x + this.size.width / 2, this.location.y);
 
-    ctx.moveTo(this.location.x + this.size.width / 2, this.location.y);
-
-    ctx.lineTo(
+    path.lineTo(
       this.location.x + this.size.width,
       this.location.y + this.size.height / 2,
     );
 
-    ctx.lineTo(
+    path.lineTo(
       this.location.x + this.size.width / 2,
       this.location.y + this.size.height,
     );
 
-    ctx.lineTo(this.location.x, this.location.y + this.size.height / 2);
+    path.lineTo(this.location.x, this.location.y + this.size.height / 2);
 
-    ctx.closePath();
-    ctx.fillStyle = this.style;
-    ctx.fill();
+    path.closePath();
   }
 
   /**
@@ -442,23 +454,22 @@ export class Trapezoid extends BaseShape {
   }
 
   /**
-   * Draws the trapezoid using the specified canvas context.
-   * @param ctx the canvas rendering context used for drawing.
+   * Creates the path for the trapezoid.
+   * @param path the Path2D object.
    */
-  public override draw(ctx: CanvasRenderingContext2D): void {
-    ctx.beginPath();
+  protected override setupPath(path: Path2D): void {
+    path.moveTo(this.location.x + 40, this.location.y);
 
-    ctx.moveTo(this.location.x + 40, this.location.y);
-    ctx.lineTo(this.location.x + this.size.width - 40, this.location.y);
-    ctx.lineTo(
+    path.lineTo(this.location.x + this.size.width - 40, this.location.y);
+
+    path.lineTo(
       this.location.x + this.size.width,
       this.location.y + this.size.height,
     );
-    ctx.lineTo(this.location.x, this.location.y + this.size.height);
 
-    ctx.closePath();
-    ctx.fillStyle = this.style;
-    ctx.fill();
+    path.lineTo(this.location.x, this.location.y + this.size.height);
+
+    path.closePath();
   }
 
   /**
