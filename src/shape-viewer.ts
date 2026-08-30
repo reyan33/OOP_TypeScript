@@ -1,25 +1,53 @@
-import { Shape } from "./shapes.js";
+import { Shape, ShapeChangeListener, ShapeChangedEvent } from "./shapes.js";
 
-export class ShapeViewer {
+export class ShapeSelectionEvent {
+  public readonly shape: Shape;
+
+  public constructor(shape: Shape) {
+    this.shape = shape;
+  }
+}
+
+export interface ShapeSelectionListener {
+  shapeSelected(e: ShapeSelectionEvent): void;
+}
+
+export class ShapeViewer implements ShapeChangeListener {
   private ctx: CanvasRenderingContext2D;
+
   private shapes: Shape[];
+
   private selectedShape?: Shape;
+
   private canvas: HTMLCanvasElement;
+
+  private _selectionListeners: ShapeSelectionListener[];
 
   public constructor(canvasElement: HTMLCanvasElement) {
     this.canvas = canvasElement;
     this.ctx = canvasElement.getContext("2d") as CanvasRenderingContext2D;
     this.shapes = [];
+    this._selectionListeners = [];
   }
 
   public addShapes(shapes: Shape[]): void {
     this.shapes.push(...shapes);
+
+    shapes.forEach((shape) => {
+      shape.addChangeListener(this);
+    });
+
     this.draw();
   }
 
   public addShape(shape: Shape): void {
     this.shapes.push(shape);
+    shape.addChangeListener(this);
     this.draw();
+  }
+
+  public addSelectionListener(listener: ShapeSelectionListener): void {
+    this._selectionListeners.push(listener);
   }
 
   public getShapeAt(x: number, y: number): Shape | undefined {
@@ -37,10 +65,22 @@ export class ShapeViewer {
   public selectShape(shape: Shape): void {
     this.selectedShape = shape;
     this.draw();
+
+    this.fireSelectionEvent(new ShapeSelectionEvent(shape));
   }
 
   public clearSelection(): void {
     this.selectedShape = undefined;
+    this.draw();
+  }
+
+  private fireSelectionEvent(e: ShapeSelectionEvent): void {
+    this._selectionListeners.forEach((listener) => {
+      listener.shapeSelected(e);
+    });
+  }
+
+  public shapeChanged(_e: ShapeChangedEvent): void {
     this.draw();
   }
 

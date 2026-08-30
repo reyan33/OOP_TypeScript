@@ -4,6 +4,7 @@
 export class Point {
   // The X coordinate of the point.
   private _x: number;
+
   // The Y coordinate of the point.
   private _y: number;
 
@@ -46,6 +47,7 @@ export class Point {
 export class Size {
   // The width of the size.
   private _width: number;
+
   // The height of the size.
   private _height: number;
 
@@ -83,6 +85,35 @@ export class Size {
 }
 
 /**
+ * Event used when a shape changes.
+ */
+export class ShapeChangedEvent {
+  /**
+   * The shape that changed.
+   */
+  public readonly shape: Shape;
+
+  /**
+   * Constructs a new ShapeChangedEvent.
+   * @param shape the shape that changed.
+   */
+  public constructor(shape: Shape) {
+    this.shape = shape;
+  }
+}
+
+/**
+ * Defines a listener for shape changes.
+ */
+export interface ShapeChangeListener {
+  /**
+   * Called when a shape changes.
+   * @param e the shape changed event.
+   */
+  shapeChanged(e: ShapeChangedEvent): void;
+}
+
+/**
  * Defines a shape that can be drawn on a canvas.
  */
 export interface Shape {
@@ -90,6 +121,11 @@ export interface Shape {
    * Gets the path of the shape.
    */
   path: Path2D;
+
+  /**
+   * Gets or sets the drawing style of the shape.
+   */
+  style: string;
 
   /**
    * Draws the shape using the specified canvas context.
@@ -102,6 +138,12 @@ export interface Shape {
    * @param ctx the canvas rendering context used for drawing.
    */
   drawSelectionBorder(ctx: CanvasRenderingContext2D): void;
+
+  /**
+   * Adds a listener for shape changes.
+   * @param listener the listener to add.
+   */
+  addChangeListener(listener: ShapeChangeListener): void;
 
   /**
    * Returns a representation of the shape in string format.
@@ -117,12 +159,16 @@ export abstract class BaseShape implements Shape {
   // The drawing style of the shape.
   private _style: string;
 
+  // The listeners for shape changes.
+  private _changeListeners: ShapeChangeListener[];
+
   /**
    * Constructs and initializes a BaseShape using the specified style.
    * @param style the drawing style of the shape.
    */
   public constructor(style: string) {
     this._style = style;
+    this._changeListeners = [];
   }
 
   /**
@@ -132,23 +178,64 @@ export abstract class BaseShape implements Shape {
     return this._style;
   }
 
+  /**
+   * Sets the style of the shape and notifies listeners.
+   */
+  public set style(style: string) {
+    this._style = style;
+    this.fireShapeChangedEvent(new ShapeChangedEvent(this));
+  }
+
+  /**
+   * Gets the path of the shape.
+   */
   public get path(): Path2D {
     const path = new Path2D();
     this.setupPath(path);
     return path;
   }
 
+  /**
+   * Adds a listener for shape changes.
+   * @param listener the listener to add.
+   */
+  public addChangeListener(listener: ShapeChangeListener): void {
+    this._changeListeners.push(listener);
+  }
+
+  /**
+   * Notifies all listeners that the shape has changed.
+   * @param e the shape changed event.
+   */
+  private fireShapeChangedEvent(e: ShapeChangedEvent): void {
+    this._changeListeners.forEach((listener) => {
+      listener.shapeChanged(e);
+    });
+  }
+
+  /**
+   * Draws the shape using the specified canvas context.
+   * @param ctx the canvas rendering context used for drawing.
+   */
   public draw(ctx: CanvasRenderingContext2D): void {
     ctx.fillStyle = this.style;
     ctx.fill(this.path);
   }
 
+  /**
+   * Draws a border around the selected shape.
+   * @param ctx the canvas rendering context used for drawing.
+   */
   public drawSelectionBorder(ctx: CanvasRenderingContext2D): void {
     ctx.strokeStyle = "black";
     ctx.lineWidth = 3;
     ctx.stroke(this.path);
   }
 
+  /**
+   * Creates the path of the shape.
+   * @param path the Path2D object.
+   */
   protected abstract setupPath(path: Path2D): void;
 
   /**
@@ -200,6 +287,12 @@ export class Rectangle extends BaseShape {
     this.size = new Size(width, height);
   }
 
+  /**
+   * Creates a Rectangle at the specified position.
+   * @param x the X coordinate of the rectangle.
+   * @param y the Y coordinate of the rectangle.
+   * @returns a new Rectangle.
+   */
   public static initWithXY(x: number, y: number): Rectangle {
     return new Rectangle(x, y, 100, 100, "#f36a2e");
   }

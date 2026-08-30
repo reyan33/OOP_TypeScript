@@ -2,6 +2,7 @@ import { CanvasController } from "./shape-controller.js";
 import { StatusBar } from "./shape-status.js";
 import { ShapeViewer } from "./shape-viewer.js";
 import { PaletteComponent } from "./shape-palette.js";
+import { PropertiesComponent } from "./shape-properties.js";
 import { SelectAction, AddShapeAction } from "./shape-actions.js";
 import { Rectangle, Circle, Triangle, Rhombus, Trapezoid } from "./shapes.js";
 
@@ -12,12 +13,20 @@ export class ShapeEditor {
 
   private _statusBar: StatusBar;
 
+  private _propertiesComponent: PropertiesComponent;
+
   private _canvasController: CanvasController;
 
   public constructor() {
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
     this._shapeView = new ShapeViewer(canvas);
+
+    this._propertiesComponent = new PropertiesComponent(
+      document.getElementById("properties") as HTMLElement,
+    );
+
+    this._shapeView.addSelectionListener(this._propertiesComponent);
 
     this._palette = new PaletteComponent(
       document.getElementById("palette") as HTMLElement,
